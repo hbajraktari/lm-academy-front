@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col justify-around">
+  <div class="h-full flex flex-col justify-around">
     <div class="welcome-message flex justify-center">
       <div class="w-[250px] md:w-[450px] text-center">
         <h1 class="text-3xl">

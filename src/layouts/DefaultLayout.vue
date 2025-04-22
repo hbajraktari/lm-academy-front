@@ -10,9 +10,7 @@ import HeaderDefault from '@/components/default/general/HeaderDefault.vue'
     <!-- header end -->
 
     <!-- content start -->
-    <div class="wrapper min-h-[80vh]">
-      <router-view />
-    </div>
+    <router-view class="wrapper min-h-[80vh]" />
     <!-- content end -->
 
     <!-- footer start -->
