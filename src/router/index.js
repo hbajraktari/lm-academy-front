@@ -1,3 +1,5 @@
+import { useUserStore } from '@/stores/useUserStore'
+import fetchCurrentUser from '@/utils/fetchCurrentUser'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -9,7 +11,7 @@ const router = createRouter({
       component: () => import('@/layouts/DefaultLayout.vue'),
       children: [
         {
-          path: '/',
+          path: '',
           name: 'home',
           component: () => import('@/views/HomePageView.vue'),
         },
@@ -47,10 +49,10 @@ const router = createRouter({
         },
       ],
     },
-    { 
+    {
       path: '/:pathMatch(.*)*',
-      name: 'NotFound', 
-      component: import ('@/views/Errors/NotFound.vue'),
+      name: 'NotFound',
+      component: () => import('@/views/Errors/NotFound.vue'),
     },
     {
       path: '/auth',
@@ -80,13 +82,41 @@ const router = createRouter({
           component: () => import('@/views/Dashboard/DashboardView.vue'),
         },
         {
-          path: '/users-list',
+          path: 'users-list',
           name: 'DashboardUserList',
           component: () => import('@/views/Dashboard/UsersList.vue'),
+        },
+        {
+          path: 'send-registration-invite',
+          name: 'SendRegistrationInvite',
+          component: () => import('@/views/Dashboard/SendRegistrationInviteView.vue'),
+          meta: { forAdmin: true },
         },
       ],
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const localStorageToken = localStorage.getItem('lm-access-token')
+  let isUserLoggedIn = userStore?.isUserLoggedIn
+  let storeUser = userStore?.user
+
+  console.log('storeUser', storeUser)
+
+  if (localStorageToken && storeUser != undefined) {
+    fetchCurrentUser().then((user) => {
+      console.log("user", user);
+      
+      console.log("user", user.user)
+
+      userStore.setUser(user.user)
+      isUserLoggedIn = true
+    })
+  }
+
+  return next()
 })
 
 export default router
