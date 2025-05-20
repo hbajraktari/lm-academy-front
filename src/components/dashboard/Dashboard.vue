@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import DashboardParagraph from './DashboardParagraph.vue';
 
 </script>
