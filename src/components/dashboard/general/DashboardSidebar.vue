@@ -6,7 +6,6 @@ const handleLogout = () => {
   userStore.logout()
 }
 </script>
-
 <template>
   <aside
     id="application-sidebar-brand"
@@ -29,11 +28,13 @@ const handleLogout = () => {
           </li>
 
           <li class="sidebar-item flex justify-center items-center gap-2">
-            <i class="ti ti-layout-dashboard ps-2 text-2xl"></i>
+            <!-- active-class="border-b-textPrimary border-b-2" -->
             <router-link
               class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
               :to="{ name: 'Dashboard' }"
-              ><span>Dashboard</span>
+            >
+              <i class="ti ti-layout-dashboard ps-2 text-2xl"></i>
+              <span>Dashboard</span>
             </router-link>
           </li>
 
@@ -42,20 +43,33 @@ const handleLogout = () => {
             <span class="text-xs text-gray-400 font-semibold">UI COMPONENTS</span>
           </li>
 
-          <!-- < v-if="userStore.user.roles[0]?.name == 'Admin'" class="sidebar-item"> -->
-          <li class="sidebar-item">
+          <li v-if="userStore.user.roles[0]?.name == 'Admin'" class="sidebar-item">
             <router-link
               class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
               :to="{ name: 'CourseAdmin' }"
-              ><span>Courses</span>
+            >
+              <i class="ti ti-article ps-2 text-2xl"></i>
+              <span>Courses</span>
             </router-link>
           </li>
 
           <li class="sidebar-item">
             <router-link
               class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
+              :to="{ name: 'DashboardRandomGame' }"
+            >
+              <i class="ti ti-cards ps-2 text-2xl"></i>
+              <span>Random Game</span>
+            </router-link>
+          </li>
+
+          <li v-if="userStore.user.roles[0]?.name == 'User'" class="sidebar-item">
+            <router-link
+              class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
               :to="{ name: 'CourseUser' }"
-              ><span>Courses</span>
+            >
+              <i class="ti ti-article ps-2 text-2xl"></i>
+              <span>Courses</span>
             </router-link>
           </li>
 
@@ -100,7 +114,7 @@ const handleLogout = () => {
             <span class="text-xs text-gray-400 font-semibold">AUTH</span>
           </li>
 
-          <li class="sidebar-item">
+          <li class="sidebar-item cursor-pointer">
             <a
               class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
               @click="handleLogout()"
@@ -109,13 +123,19 @@ const handleLogout = () => {
             </a>
           </li>
 
-          <li class="sidebar-item flex justify-center items-center gap-2">
-            <i class="ti ti-user-plus ps-2 text-2xl"></i>
+          <li
+            v-if="userStore.user.roles[0]?.name == 'Admin'"
+            class="sidebar-item flex justify-center items-center gap-2"
+          >
+            <!-- active-class="border-b-textPrimary border-b-2" -->
+
             <router-link
               class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
               :to="{ name: 'SendRegistrationInvite' }"
-              ><span>Invite</span></router-link
             >
+              <i class="ti ti-user-plus ps-2 text-2xl"></i>
+              <span>Invite</span>
+            </router-link>
           </li>
 
           <li class="text-xs font-bold mb-4 mt-8">
